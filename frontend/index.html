@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Hospital staff profile registration" />
+    <title>HMI | Staff Access</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <aside class="brand-panel">
+        <img
+          class="brand-image"
+          src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1400&q=85"
+          alt="Bright modern hospital corridor"
+        />
+        <div class="brand-overlay"></div>
+        <header class="brand-mark">
+          <span class="mark-icon"><i data-lucide="heart-pulse"></i></span>
+          <span>HMI</span>
+        </header>
+        <div class="brand-copy">
+          <p class="eyebrow">Staff access</p>
+          <h1>Hospital Management System</h1>
+          <div class="status-line">
+            <span class="status-dot"></span>
+            Secure profile services online
+          </div>
+        </div>
+      </aside>
+
+      <section class="workspace" aria-labelledby="form-title">
+        <div class="workspace-inner">
+          <nav class="mode-tabs" aria-label="Account action">
+            <button class="mode-tab active" type="button" data-mode="register">
+              Create profile
+            </button>
+            <button class="mode-tab" type="button" data-mode="login">Sign in</button>
+            <button class="mode-tab" type="button" data-mode="patient">Patient entry</button>
+          </nav>
+
+          <div id="register-view">
+            <div class="section-heading">
+              <p class="step-label">Staff onboarding</p>
+              <h2 id="form-title">Create your profile</h2>
+            </div>
+
+            <form id="profile-form" novalidate>
+              <fieldset class="role-fieldset">
+                <legend>Choose your role</legend>
+                <div class="role-picker">
+                  <label class="role-option selected">
+                    <input type="radio" name="role" value="receptionist" checked />
+                    <i data-lucide="clipboard-list"></i>
+                    <span>Receptionist</span>
+                    <i class="check" data-lucide="check"></i>
+                  </label>
+                  <label class="role-option">
+                    <input type="radio" name="role" value="doctor" />
+                    <i data-lucide="stethoscope"></i>
+                    <span>Doctor</span>
+                    <i class="check" data-lucide="check"></i>
+                  </label>
+                </div>
+              </fieldset>
+
+              <div class="form-grid">
+                <label class="field full-width">
+                  <span>Full name</span>
+                  <input name="full_name" autocomplete="name" minlength="2" required />
+                </label>
+                <label class="field">
+                  <span>Email address</span>
+                  <input name="email" type="email" autocomplete="email" required />
+                </label>
+                <label class="field">
+                  <span>Phone number</span>
+                  <input name="phone" type="tel" autocomplete="tel" minlength="7" required />
+                </label>
+                <label class="field">
+                  <span>Profession</span>
+                  <input name="profession" minlength="2" required />
+                </label>
+                <label class="field">
+                  <span>Area of expertise</span>
+                  <input name="area_of_expertise" minlength="2" required />
+                </label>
+                <label class="field">
+                  <span>Qualification</span>
+                  <input name="qualification" minlength="2" required />
+                </label>
+                <label class="field">
+                  <span>Years of experience</span>
+                  <input name="years_of_experience" type="number" min="0" max="80" value="0" required />
+                </label>
+                <label class="field full-width hidden" id="license-field">
+                  <span>Medical license number</span>
+                  <input name="license_number" maxlength="80" />
+                </label>
+                <label class="field full-width">
+                  <span>Password</span>
+                  <div class="password-input">
+                    <input name="password" type="password" autocomplete="new-password" minlength="8" required />
+                    <button class="icon-button" type="button" data-password-toggle aria-label="Show password">
+                      <i data-lucide="eye"></i>
+                    </button>
+                  </div>
+                </label>
+              </div>
+
+              <p class="form-message" id="profile-message" role="alert"></p>
+              <button class="primary-button" type="submit">
+                <span>Create profile</span>
+                <i data-lucide="arrow-right"></i>
+              </button>
+            </form>
+          </div>
+
+          <div id="login-view" class="hidden">
+            <div class="section-heading">
+              <p class="step-label">Welcome back</p>
+              <h2>Sign in to HMI</h2>
+            </div>
+            <form id="login-form" novalidate>
+              <div class="form-grid">
+                <label class="field full-width">
+                  <span>Email address</span>
+                  <input name="email" type="email" autocomplete="email" required />
+                </label>
+                <label class="field full-width">
+                  <span>Password</span>
+                  <div class="password-input">
+                    <input name="password" type="password" autocomplete="current-password" minlength="8" required />
+                    <button class="icon-button" type="button" data-password-toggle aria-label="Show password">
+                      <i data-lucide="eye"></i>
+                    </button>
+                  </div>
+                </label>
+              </div>
+              <p class="form-message" id="login-message" role="alert"></p>
+              <button class="primary-button" type="submit">
+                <span>Sign in</span>
+                <i data-lucide="log-in"></i>
+              </button>
+            </form>
+          </div>
+
+          <div id="patient-view" class="hidden">
+            <div class="section-heading">
+              <p class="step-label">Reception desk</p>
+              <h2>Patient entry</h2>
+            </div>
+            <form id="patient-form" novalidate>
+              <div class="form-grid">
+                <label class="field full-width">
+                  <span>Patient name</span>
+                  <input name="full_name" autocomplete="name" minlength="2" required />
+                </label>
+                <label class="field">
+                  <span>Age</span>
+                  <input name="age" type="number" min="0" max="130" required />
+                </label>
+                <label class="field">
+                  <span>Contact number</span>
+                  <input name="contact_number" type="tel" autocomplete="tel" minlength="7" required />
+                </label>
+                <label class="field full-width">
+                  <span>Address</span>
+                  <input name="address" autocomplete="street-address" minlength="5" required />
+                </label>
+                <label class="field full-width">
+                  <span>Appointment reason</span>
+                  <input name="appointment_reason" maxlength="500" />
+                </label>
+              </div>
+              <p class="form-message" id="patient-message" role="alert"></p>
+              <button class="primary-button" type="submit">
+                <span>Save patient</span>
+                <i data-lucide="save"></i>
+              </button>
+            </form>
+          </div>
+
+          <section id="success-view" class="success-view hidden" aria-live="polite">
+            <span class="success-icon"><i data-lucide="badge-check"></i></span>
+            <p class="step-label">Profile ready</p>
+            <h2 id="success-title">Welcome to HMI</h2>
+            <dl class="profile-summary" id="profile-summary"></dl>
+            <button class="secondary-button" type="button" id="continue-button">
+              <i data-lucide="log-in"></i>
+              Sign in to your account
+            </button>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
