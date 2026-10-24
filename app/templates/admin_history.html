@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3><i class="bi bi-graph-up-arrow text-primary"></i> Historical Records & Analytics</h3>
+    <div class="btn-group">
+        <a href="/admin/history?period=daily" class="btn btn-sm btn-outline-primary {% if period == 'daily' %}active{% endif %}">Daily</a>
+        <a href="/admin/history?period=monthly" class="btn btn-sm btn-outline-primary {% if period == 'monthly' %}active{% endif %}">Monthly</a>
+        <a href="/admin/history?period=quarterly" class="btn btn-sm btn-outline-primary {% if period == 'quarterly' %}active{% endif %}">Quarterly</a>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Doctor Performance -->
+    <div class="col-lg-4 mb-4">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-header bg-white fw-bold">Patients Treated Per Doctor</div>
+            <div class="card-body p-0">
+                <ul class="list-group list-group-flush">
+                    {% for doc, count in doctor_stats %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Dr. {{ doc }}
+                        <span class="badge bg-primary rounded-pill">{{ count }}</span>
+                    </li>
+                    {% else %}
+                    <li class="list-group-item text-muted">No completed treatments recorded in this duration.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Receptionist Activity -->
+    <div class="col-lg-4 mb-4">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-header bg-white fw-bold">Registrations by Receptionist</div>
+            <div class="card-body p-0">
+                <ul class="list-group list-group-flush">
+                    {% for rec, count in receptionist_stats %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ rec }}
+                        <span class="badge bg-secondary rounded-pill">{{ count }}</span>
+                    </li>
+                    {% else %}
+                    <li class="list-group-item text-muted">No activity in this duration.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Disease / Illness Frequency -->
+    <div class="col-lg-4 mb-4">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-header bg-white fw-bold">Illness Category Breakdown</div>
+            <div class="card-body p-0">
+                <ul class="list-group list-group-flush">
+                    {% for illness, count in illness_stats %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ illness }}
+                        <span class="badge bg-info text-dark rounded-pill">{{ count }}</span>
+                    </li>
+                    {% else %}
+                    <li class="list-group-item text-muted">No data available.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

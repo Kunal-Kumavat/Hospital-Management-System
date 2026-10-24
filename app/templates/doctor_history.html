@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8 mx-auto">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <h5 class="fw-bold mb-3">Search Patient Health History</h5>
+                <form method="get" action="/doctor/search" class="d-flex">
+                    <input type="text" name="q" class="form-control me-2" placeholder="Search by patient name or contact number..." value="{{ query or '' }}">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+                {% if patients_search %}
+                <ul class="list-group mt-3">
+                    {% for p in patients_search %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>{{ p.name }}</strong> (Contact: {{ p.contact }}) - BMI: {{ p.bmi }}
+                        </div>
+                        <a href="/doctor/patient/{{ p.id }}/history" class="btn btn-sm btn-outline-primary">View Records</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if patient %}
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+        <h4 class="fw-bold text-primary">{{ patient.name }} - Health Profile</h4>
+        <div class="row mt-3">
+            <div class="col-md-3"><strong>DOB:</strong> {{ patient.dob }}</div>
+            <div class="col-md-3"><strong>Contact:</strong> {{ patient.contact }}</div>
+            <div class="col-md-3"><strong>Blood Group:</strong> {{ patient.blood_group or 'N/A' }}</div>
+            <div class="col-md-3"><strong>BMI:</strong> {{ patient.bmi }} ({{ patient.height_cm }} cm / {{ patient.weight_kg }} kg)</div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Prescriptions and Check-ups History -->
+    <div class="col-lg-7">
+        <h5 class="fw-bold mb-3"><i class="bi bi-journal-medical"></i> Clinical History & Prescriptions</h5>
+        {% for a in appointments %}
+        <div class="card shadow-sm border-0 mb-3">
+            <div class="card-header bg-white d-flex justify-content-between">
+                <span><strong>Date:</strong> {{ a.appointment_date }}</span>
+                <span><strong>Doctor:</strong> Dr. {{ a.doctor.full_name }}</span>
+            </div>
+            <div class="card-body">
+                <p><strong>Complaint:</strong> {{ a.illness_complaint }}</p>
+                {% if a.consultation %}
+                <p><strong>Diagnosis:</strong> <span class="text-danger">{{ a.consultation.diagnosis }}</span></p>
+                <p><strong>Prescription:</strong> <pre class="bg-light p-2 rounded">{{ a.consultation.prescription }}</pre></p>
+                {% if a.consultation.notes %}<p><strong>Notes:</strong> {{ a.consultation.notes }}</p>{% endif %}
+                {% else %}
+                <span class="badge bg-warning text-dark">No consultation completed</span>
+                {% endif %}
+            </div>
+        </div>
+        {% else %}
+        <p class="text-muted">No clinical visits recorded.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Reports, X-Rays, ECGs -->
+    <div class="col-lg-5">
+        <h5 class="fw-bold mb-3"><i class="bi bi-card-image"></i> Diagnostics & Reports (ECG/X-Ray)</h5>
+        {% for r in reports %}
+        <div class="card shadow-sm border-0 mb-3">
+            <div class="card-body">
+                <h6>{{ r.title }} <span class="badge bg-info text-dark">{{ r.report_type }}</span></h6>
+                <small class="text-muted">Uploaded on: {{ r.uploaded_at.strftime('%Y-%m-%d %H:%M') }}</small>
+                <div class="mt-2">
+                    {% if r.file_path.endswith(('.png', '.jpg', '.jpeg', '.webp')) %}
+                    <img src="{{ r.file_path }}" class="img-fluid rounded border" alt="{{ r.title }}" style="max-height: 250px;">
+                    {% else %}
+                    <a href="{{ r.file_path }}" target="_blank" class="btn btn-sm btn-outline-secondary">Download Document</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <p class="text-muted">No diagnostic files uploaded.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}

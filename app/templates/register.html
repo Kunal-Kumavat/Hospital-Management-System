@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+                <h4 class="card-title text-center mb-3 fw-bold">Create Hospital Staff Profile</h4>
+                {% if error %}
+                <div class="alert alert-danger py-2">{{ error }}</div>
+                {% endif %}
+                <form action="/register" method="post">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" name="full_name" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Username</label>
+                            <input type="text" name="username" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Password</label>
+                            <input type="password" name="password" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Date of Birth</label>
+                            <input type="date" name="dob" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Role</label>
+                            <select name="role" id="roleSelect" class="form-select" onchange="toggleSpecialization()" required>
+                                <option value="Receptionist">Receptionist</option>
+                                <option value="Doctor">Doctor</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Designation</label>
+                            <input type="text" name="designation" placeholder="e.g. Senior Medical Officer" class="form-control" required>
+                        </div>
+                        <div class="col-md-12" id="specField" style="display:none;">
+                            <label class="form-label">Doctor Specialization</label>
+                            <input type="text" name="specialization" placeholder="e.g. Cardiologist, Orthopedic, General Physician" class="form-control">
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="is_admin" value="true" id="adminCheck">
+                                <label class="form-check-label fw-semibold" for="adminCheck">
+                                    Grant Admin Access (Access to Live & Historical HMI Dashboards)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100 mt-4">Create Profile</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+function toggleSpecialization() {
+    var role = document.getElementById("roleSelect").value;
+    document.getElementById("specField").style.display = (role === "Doctor") ? "block" : "none";
+}
+</script>
+{% endblock %}

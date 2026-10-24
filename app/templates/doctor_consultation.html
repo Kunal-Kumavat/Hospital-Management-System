@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-12 mb-3">
+        <h4>Doctor Consultation Console</h4>
+    </div>
+    {% for a in appointments %}
+    <div class="col-lg-6 mb-4">
+        <div class="card shadow-sm border-0 border-start border-4 border-primary">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <h5>Token #{{ a.token_number }}: {{ a.patient.name }}</h5>
+                    <a href="/doctor/patient/{{ a.patient_id }}/history" class="btn btn-sm btn-outline-info" target="_blank">
+                        <i class="bi bi-clock-history"></i> Full History
+                    </a>
+                </div>
+                <p class="text-muted small mb-2">Age: {{ a.patient.dob }} | Contact: {{ a.patient.contact }} | BMI: {{ a.patient.bmi }}</p>
+                <p><strong>Chief Complaint:</strong> {{ a.illness_complaint }}</p>
+
+                <hr>
+                <form action="/doctor/appointment/{{ a.id }}/prescribe" method="post" enctype="multipart/form-data">
+                    <div class="mb-2">
+                        <label class="form-label fw-bold">Diagnosis</label>
+                        <input type="text" name="diagnosis" class="form-control form-control-sm" required>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label fw-bold">Prescription & Dosage</label>
+                        <textarea name="prescription" class="form-control form-control-sm" rows="3" placeholder="Medicine, Frequency, Duration..." required></textarea>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label fw-bold">Clinical Notes</label>
+                        <textarea name="notes" class="form-control form-control-sm" rows="1"></textarea>
+                    </div>
+                    
+                    <!-- Upload Report / X-Ray / ECG -->
+                    <div class="border rounded p-2 mb-2 bg-light">
+                        <small class="fw-bold d-block mb-1">Attach Lab/X-Ray/ECG Record:</small>
+                        <div class="row g-2">
+                            <div class="col-md-6">
+                                <input type="text" name="report_title" placeholder="Report Name" class="form-control form-control-sm">
+                            </div>
+                            <div class="col-md-6">
+                                <select name="report_type" class="form-select form-select-sm">
+                                    <option value="X-Ray">X-Ray</option>
+                                    <option value="ECG">ECG</option>
+                                    <option value="Blood Test">Blood Test</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <input type="file" name="report_file" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-sm btn-success w-100">Complete Appointment & Save Record</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="col-12">
+        <div class="alert alert-secondary text-center py-4">No waiting patients in your consultation queue.</div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

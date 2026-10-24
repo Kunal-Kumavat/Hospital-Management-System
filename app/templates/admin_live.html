@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3><i class="bi bi-broadcast text-danger"></i> Live Hospital Dashboard (HMI)</h3>
+    <span class="badge bg-dark fs-6">Hospital Patients Today: {{ total_patients_today }}</span>
+</div>
+
+<div class="row">
+    {% for q in doctor_queues %}
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-header bg-white">
+                <h5 class="card-title mb-0">Dr. {{ q.doctor.full_name }}</h5>
+                <small class="text-muted">{{ q.doctor.specialization or 'General Practitioner' }}</small>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between mb-2">
+                    <span>Waiting:</span>
+                    <span class="badge bg-warning text-dark">{{ q.waiting }}</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span>In Consultation:</span>
+                    <span class="badge bg-info text-dark">{{ q.in_consultation }}</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span>Completed Today:</span>
+                    <span class="badge bg-success">{{ q.completed }}</span>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between fw-bold">
+                    <span>Total Allocated Today:</span>
+                    <span>{{ q.total_today }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
